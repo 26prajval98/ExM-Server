@@ -10,20 +10,21 @@ router.use(bodyParser.json());
 
 router.post('/', authenticate.verifyUser,(req, res, next)=> {
     var obj = {
-      ratings : req.body.ratings,
-      review  : req.body.review,
-      uid     : req.user._id
+        ratings : req.body.ratings,
+        review  : req.body.review,
+        uid     : req.user._id
     }
+    console.log(obj);
     Review.create(obj)
     .then((review)=>{
-        res.setHeader('Content-Type','application/json');
+        console.log('ajsdadas');
+        console.log(review);
+        res.setHeader('Content-type', 'application/json');
         res.json({err:false});
     })
-    .catch(err=>{
-        err = new Error('Failed');
-        res.setHeader('Content-Type','application/json');
+    .catch((err)=>{
+        res.setHeader('Content-type', 'application/json');
         res.json({err:true});
-        next(err);
     })
 });
 
