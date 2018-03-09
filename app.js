@@ -5,14 +5,13 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-//var session = require('express-session');
-//var fileStore = require('session-file-store')(session);
 var passport = require('passport');
 var authenticate = require('./authenticate');
 
 var config = require('./config');
 var index = require('./routes/index');
 var users = require('./routes/users');
+var review = require('./routes/review');
 
 mongoose.connect(config.uri)
 .then((db)=>{
@@ -37,34 +36,14 @@ app.use(function(req, res, next) { res.header('Access-Control-Allow-Origin', "*"
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-/*app.use(session({
-  name  : 'Session',
-  secret : 'aldfbjhadfbjdnaj',
-  saveUninitialized: false,
-  resave: false,
-  store: new fileStore()
-}))*/
 
 app.use(passport.initialize());
-//app.use(passport.session());  
-app.use('/users', users);
-
-auth = (req, res, next)=>{
-  if(!req.user){
-    var err = new Error('Not Authenticated');
-    err.status = 401;
-    next(err);
-  }
-  else{
-    next();
-  }
-}
-
-//app.use(auth);
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/users', users);
+app.use('/review', review);
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
