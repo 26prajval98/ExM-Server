@@ -11,7 +11,7 @@ router.use(bodyParser.json());
 router.get('/',authenticate.verifyUser, function(req, res, next) {
   res.setHeader('Content-type', 'application/json');
   res.json({username:req.user.username, about:req.user.about});
-});
+}); 
 
 router.post('/signup',(req,res,next)=>{
   console.log(req.body.username);
