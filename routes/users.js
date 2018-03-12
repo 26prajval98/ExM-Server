@@ -42,4 +42,12 @@ router.get('/logout',(req,res,next)=>{
   res.redirect('/users');
 })
 
+router.post('/update', authenticate.verifyUser, (req,res)=>{
+    User.findOneAndUpdate({_id:req.user._id}, { $set: { about: req.body.about}})
+    .then((user)=>{
+      res.setHeader('Content-Type','application/json');
+      res.json({success: true, user : user});
+    })
+})
+
 module.exports = router;
