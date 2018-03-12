@@ -12,6 +12,7 @@ var config = require('./config');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var review = require('./routes/review');
+var images = require('./routes/images');
 
 mongoose.connect(config.uri)
 .then((db)=>{
@@ -47,6 +48,7 @@ app.use(passport.initialize());
 app.use('/', index);
 app.use('/users', users);
 app.use('/review', review);
+app.use('/images', images);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

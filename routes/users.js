@@ -8,11 +8,12 @@ var authenticate = require('../authenticate');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/',authenticate.verifyUser, function(req, res, next) {
+  res.setHeader('Content-type', 'application/json');
+  res.json({username:req.user.username, about:req.user.about});
 });
 
-router.post('/signup', (req,res,next)=>{
+router.post('/signup',(req,res,next)=>{
   console.log(req.body.username);
   User.register(new User({username:req.body.username}), req.body.password, (err)=>{
     if(err){
