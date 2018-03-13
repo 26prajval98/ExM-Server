@@ -44,7 +44,7 @@ router.post('/', authenticate.verifyUser, (req,res,next)=>{
     
 });
 
-router.delete('/', authenticate.verifyUser, (req,res,next)=>{
+router.post('/delete', authenticate.verifyUser, (req,res,next)=>{
     toBuy.findOne({uid:req.user._id})
     .then((toBuyList)=>{
         toBuyList.toBuy.id(req.body.id).remove();

@@ -30,7 +30,7 @@ router.post('/', authenticate.verifyUser, (req,res,next)=>{
         next(err);
     })
 });
-router.delete('/', authenticate.verifyUser, (req,res,next)=>{
+router.post('/delete', authenticate.verifyUser, (req,res,next)=>{
     toDo.findOneAndRemove({_id:req.body.id})
     .then(()=>{
         res.setHeader('Content-Type','application/json');

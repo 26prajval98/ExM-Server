@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var multer = require('multer'); 
 var path = require('path');
+var fs = require('fs');
 
 var authenticate = require('../authenticate');
 router.use(bodyParser.json());
@@ -35,8 +36,15 @@ router.post('/', authenticate.verifyUser, upload.single('imageFile'), (req, res,
 })
 
 router.get('/',(req,res,next)=>{
-    res.sendFile(path.join(__dirname, '../public/images',req.user.username))
+    res.sendFile(path.join(__dirname, '../public/images/userPH.png'));
 })
-
+router.get('/:id',(req,res,next)=>{
+    if(fs.existsSync(path.join(__dirname, '../public/images',req.params.id))){
+        res.sendFile(path.join(__dirname, '../public/images',req.params.id));
+    }
+    else{
+        res.sendFile(path.join(__dirname, '../public/images/userPH.png'));
+    }
+})
 
 module.exports = router;
