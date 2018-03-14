@@ -30,8 +30,14 @@ function calculateWeeksBetween(date1, date2) {
 router.get('/', authenticate.verifyUser, (req,res,next)=>{
     savings.findOne({uid: req.user._id})
     .then((saving)=>{
-        console.log(saving);
-        res.json({details : saving});
+        var lenList = saving.savingsList.length;
+        var last = saving.savingsList[lenList-1];
+        if(isSameWeek(last.createdAt, new Date())){
+            res.json({details : saving, success:true});
+        }
+        else{
+            res.json({success:false})
+        }
     })
     .catch((err)=>{
         next(err);
@@ -50,7 +56,6 @@ router.post('/', authenticate.verifyUser, (req,res,next)=>{
         else{
             var lenList = saving.savingsList.length;
             var last = saving.savingsList[lenList-1];
-            console.log(last.createdAt);
             if(isSameWeek(last.createdAt, new Date())){
                 saving.savingsList[lenList-1].saved = req.body.saved;
             }
@@ -79,6 +84,20 @@ router.post('/bought', authenticate.verifyUser, (req,res,next)=>{
     })
     .then((to)=>{
         res.json({Success:true});
+    })
+    .catch(err=>{
+        console.log(err);
+    }) 
+})
+
+router.post('/update', authenticate.verifyUser, (req,res,next)=>{
+    savings.findOne({uid: req.user._id})
+    .then((saving)=>{
+        saving.savingsList[saving.savingsList.length-1] = req.body.savings;
+        return saving.save();    
+    })
+    .then((to)=>{
+        res.json({Success:true});       
     })
     .catch(err=>{
         console.log(err);

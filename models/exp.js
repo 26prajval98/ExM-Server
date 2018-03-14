@@ -10,10 +10,6 @@ var expSchema = new Schema({
         type : Number,
         required : true
     },
-    purchasedOn:{
-        type: Number,
-        required: true
-    },
     latitude : {
         type: Number,
     },
