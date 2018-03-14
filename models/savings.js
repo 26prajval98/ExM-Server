@@ -20,7 +20,7 @@ var savingsListSchema = new Schema({
         type: Number,
         default: 0
     },
-    tb : {
+    boughtFromSavings : {
         type: Number,
         default: 0
     },
@@ -33,6 +33,6 @@ var savingsListSchema = new Schema({
     timestamps: true
 })
 
-var savings = mongoose.model('ToBuy', savingsListSchema);
+var savings = mongoose.model('savings', savingsListSchema);
 
 module.exports = savings;

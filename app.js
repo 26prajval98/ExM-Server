@@ -15,6 +15,8 @@ var review = require('./routes/review');
 var images = require('./routes/images');
 var toDo = require('./routes/toDo');
 var toBuy = require('./routes/toBuy');
+var exp = require('./routes/exp');
+var savings = require('./routes/savings');
 
 mongoose.connect(config.uri)
 .then((db)=>{
@@ -53,6 +55,8 @@ app.use('/review', review);
 app.use('/images', images);
 app.use('/toDo', toDo);
 app.use('/toBuy', toBuy);
+app.use('/exp', exp);
+app.use('/savings', savings);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
