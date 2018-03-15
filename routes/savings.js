@@ -30,6 +30,8 @@ function calculateWeeksBetween(date1, date2) {
 router.get('/', authenticate.verifyUser, (req,res,next)=>{
     savings.findOne({uid: req.user._id})
     .then((saving)=>{
+        if(!saving)
+            res.json({success:false});   
         var lenList = saving.savingsList.length;
         var last = saving.savingsList[lenList-1];
         if(isSameWeek(last.createdAt, new Date())){

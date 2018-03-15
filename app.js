@@ -22,9 +22,6 @@ mongoose.connect(config.uri)
 .then((db)=>{
   console.log('Connected Successfully');
 })
-.catch((err)=>{
-  next(err);
-})
 
 var app = express();
 
