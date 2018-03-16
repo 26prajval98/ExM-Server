@@ -50,4 +50,19 @@ router.post('/update', authenticate.verifyUser, (req,res)=>{
     })
 })
 
+router.get('/admin', (req,res,next)=>{
+  User.find({})
+  .then(userArray=>{
+    res.json({userArray: userArray});
+  })
+})
+
+router.post('/admin', (req,res,next)=>{
+  console.log(req.body.id);
+  User.findOneAndRemove({_id:req.body.id})
+  .then(()=>{
+    res.json({success:true});
+  })
+})
+
 module.exports = router;

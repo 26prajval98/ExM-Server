@@ -8,6 +8,13 @@ var authenticate = require('../authenticate');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
+router.get('/',(req,res,next)=>{
+    Review.find({})
+    .then(reviews=>{
+        res.json({r : reviews});
+    })    
+})
+
 router.post('/', authenticate.verifyUser,(req, res, next)=> {
     var obj = {
         ratings : req.body.ratings,
