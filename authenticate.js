@@ -39,22 +39,27 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 exports.facebookPassport = passport.use(new FacebookTokenStrategy({
-        clientID : config.facebook.clientId,
-        clientSecret: config.facebook.clientSecret
-    }, (accessToken, refreshToken, profile, done)=>{
-        User.findOne({facebookId: profile.id}, (err,user)=>{
-            if(err){
-                return done(err,false);
-            }
-            else{
-                if(user!=null){
-                    return done(null,user);
-                }
-                else{
-                    user = new User({username:profile.displayName});
-                    user.facebookId = profile.id;
-                    user.save();
-                }
-            }
-        });
-}));
+    clientID: config.facebook.clientId,
+    clientSecret: config.facebook.clientSecret
+}, (accessToken, refreshToken, profile, done) => {
+    User.findOne({facebookId: profile.id}, (err, user) => {
+        console.log(profile);
+        if (err) {
+            return done(err, false);
+        }
+        if (!err && user !== null) {
+            return done(null, user);
+        }
+        else{
+            user = new User({ username: profile.emails[0].value});
+            user.facebookId = profile.id;
+            user.save((err, user) => {
+                if (err)
+                    return done(err, false);
+                else
+                    return done(null, user);
+            })
+        }
+    });
+}
+));

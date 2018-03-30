@@ -18,10 +18,28 @@
           FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 console.log('Logged in.');
+                var url = '/me?fields=name,email';
+                FB.api(url, function (response) {
+                    alert(response.name);
+                    alert(response.email);
+                });
             }
             else {
-                FB.login();
+                FB.login(function (response) {
+                    if (response.session) {
+                        var url = '/me?fields=name,email';
+                        FB.api(url, function (response) {
+                            alert(response.name);
+                            alert(response.email);
+                        });
+                    }
+                    else {
+                        alert("User did not login successfully");
+                    }
+                }, { scope: 'email' });
             }
+            
+            console.log(response);
         });
         };
       
@@ -31,9 +49,7 @@
            js = d.createElement(s); js.id = id;
            js.src = "https://connect.facebook.net/en_US/sdk.js";
            fjs.parentNode.insertBefore(js, fjs);
-         }(document, 'script', 'facebook-jssdk'));
-
-         
+         }(document, 'script', 'facebook-jssdk'));       
       </script>
 </body>
 </html>
