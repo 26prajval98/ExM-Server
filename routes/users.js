@@ -13,6 +13,15 @@ router.get('/',authenticate.verifyUser, function(req, res, next) {
   res.json({username:req.user.username, about:req.user.about});
 }); 
 
+router.get('/facebook/token', passport.authenticate('facebook-token'), (req, res) => {
+  if (req.user) {
+    var token = authenticate.getToken({_id: req.user._id});
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({token: token});
+  }
+});
+
 router.post('/signup',(req,res,next)=>{
   console.log(req.body.username);
   User.register(new User({username:req.body.username}), req.body.password, (err)=>{

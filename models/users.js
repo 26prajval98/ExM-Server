@@ -7,6 +7,9 @@ var Schema = mongoose.Schema;
 var Users = new Schema({
     about:{
         type:String
+    },
+    facebookId :{
+        type:String,
     }
 },{
     timestamps: true
