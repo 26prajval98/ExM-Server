@@ -51,13 +51,29 @@ exports.facebookPassport = passport.use(new FacebookTokenStrategy({
             return done(null, user);
         }
         else{
-            user = new User({ username: profile.emails[0].value});
-            user.facebookId = profile.id;
-            user.save((err, user) => {
-                if (err)
+            User.findOne({username: profile.emails[0].value}, (err,user)=>{
+                if (err) {
                     return done(err, false);
-                else
-                    return done(null, user);
+                }
+                if (!err && user !== null) {
+                    user.facebookId = profile.id;
+                    user.save((err, user) => {
+                        if (err)
+                            return done(err, false);
+                        else
+                            return done(null, user);
+                    })
+                }
+                else{
+                    user = new User({ username: profile.emails[0].value});
+                    user.facebookId = profile.id;
+                    user.save((err, user) => {
+                        if (err)
+                            return done(err, false);
+                        else
+                            return done(null, user);
+                    })
+                }
             })
         }
     });
