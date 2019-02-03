@@ -38,6 +38,7 @@ router.post('/', authenticate.verifyUser, upload.single('imageFile'), (req, res,
 router.get('/',(req,res,next)=>{
     res.sendFile(path.join(__dirname, '../public/images/userPH.png'));
 })
+
 router.get('/:id',(req,res,next)=>{
     if(fs.existsSync(path.join(__dirname, '../public/images',req.params.id))){
         res.sendFile(path.join(__dirname, '../public/images',req.params.id));
